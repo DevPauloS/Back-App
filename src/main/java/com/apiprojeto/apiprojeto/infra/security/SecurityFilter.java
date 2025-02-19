@@ -1,7 +1,6 @@
 package com.apiprojeto.apiprojeto.infra.security;
 
-import com.apiprojeto.apiprojeto.domain.user.User;
-import com.apiprojeto.apiprojeto.repositories.UserRepository;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,6 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.apiprojeto.apiprojeto.domain.user.User;
+import com.apiprojeto.apiprojeto.repositories.UserRepository;
+
 import java.io.IOException;
 import java.util.Collections;
 
@@ -22,7 +24,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     TokenService tokenService;
     @Autowired
     UserRepository userRepository;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -41,6 +42,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     private String recoverToken(HttpServletRequest request){
         var authHeader = request.getHeader("Authorization");
         if(authHeader == null) return null;
-        return authHeader.replace("Bearer", "");
+        return authHeader.replace("Bearer ", "");
     }
 }
